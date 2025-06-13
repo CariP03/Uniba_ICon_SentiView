@@ -2,6 +2,7 @@ import string
 from nltk.corpus import wordnet as wn
 from nltk import word_tokenize, pos_tag
 from nltk.stem import WordNetLemmatizer as wnl
+import contractions
 
 from config import INTENSIFIERS, NEGATORS
 
@@ -40,7 +41,7 @@ def clean_tokenize(text: str):
 
         return None
 
-    tokens = word_tokenize(text.lower())
+    tokens = word_tokenize(contractions.fix(text).lower())
     pos_tags = pos_tag(tokens)
     lemmatizer = wnl()
 

@@ -1,5 +1,6 @@
-DATASET_PATH = "..\\..\\data\\aclImdb\\train\\"
-LEXICON_PATH = "..\\prolog\\lexicon.pl"
+DATASET_PATH = "../../data/aclImdb/train/"
+LEXICON_PATH = "../prolog/lexicon.pl"
+SENTIMENT_PATH = "../prolog/sentiment_rules.pl"
 
 # list of intensifiers
 INTENSIFIERS = {
