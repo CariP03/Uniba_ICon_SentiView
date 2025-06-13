@@ -17,6 +17,7 @@ def get_swn_score(word):
     else:
         return 0
 
+
 def get_swn_score_phrase(phrase):
     tokens = word_tokenize(phrase.lower())
     scores = []
