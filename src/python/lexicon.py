@@ -24,7 +24,7 @@ with open(LEXICON_PATH, "w", encoding="utf-8") as lexicon:
     # write intensifiers
     lexicon.write('\n% Intensifiers\n')
     for intensifier in INTENSIFIERS:
-        lexicon.write(f'intensifier("{intensifier[0]}, {intensifier[1]}).\n')
+        lexicon.write(f'intensifier("{intensifier[0]}", {intensifier[1]}).\n')
 
     # write negators
     lexicon.write('\n% Negators\n')

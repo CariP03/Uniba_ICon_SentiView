@@ -1,5 +1,6 @@
 from nltk.tokenize import word_tokenize
-
+from nltk.stem import WordNetLemmatizer
+from nltk.corpus import wordnet as wn
 
 def tokenize_dataframe(df):
     vocab = set()

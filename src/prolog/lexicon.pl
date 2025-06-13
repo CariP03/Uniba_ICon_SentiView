@@ -13449,11 +13449,11 @@ word_score("enviably", 0.3750).
 word_score("mantraps", 0.1250).
 
 % Intensifiers
-intensifier("extremely, 2.0).
-intensifier("very, 1.5).
-intensifier("really, 1.3).
-intensifier("so, 1.2).
-intensifier("quite, 1.2).
+intensifier("extremely", 2.0).
+intensifier("very", 1.5).
+intensifier("really", 1.3).
+intensifier("so", 1.2).
+intensifier("quite", 1.2).
 
 % Negators
 negator("not").
