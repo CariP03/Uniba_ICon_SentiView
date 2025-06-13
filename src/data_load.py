@@ -17,3 +17,12 @@ def read_folder(path: str, positive: bool) -> pd.DataFrame:
             })
 
     return pd.DataFrame(data)
+
+def read_dataset(path:str) -> pd.DataFrame:
+    pos_path = os.path.join(path, 'pos')
+    neg_path = os.path.join(path, 'neg')
+
+    df_pos = read_folder(pos_path, True)
+    df_neg = read_folder(neg_path, False)
+
+    return pd.concat([df_pos, df_neg])
