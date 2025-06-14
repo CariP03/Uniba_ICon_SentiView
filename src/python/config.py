@@ -2,6 +2,8 @@ DATASET_PATH = "../../data/aclImdb/train/"
 LEXICON_PATH = "../prolog/lexicon.pl"
 SENTIMENT_PATH = "../prolog/sentiment_rules.pl"
 
+DATAFRAME_SAVE_PATH = "../../data/kb_train.csv"
+
 # list of intensifiers
 INTENSIFIERS = {
     "very": 1.5,

@@ -48,6 +48,7 @@ def clean_tokenize(text: str):
     clean_tokens = []
     for token, tag in pos_tags:
         token = token.strip(string.punctuation)
+        token = token.replace("\\", '/')  # remove problematic character
 
         if any(c.isalpha() for c in token):  # remove invalid tokens
             if token in NEGATORS:

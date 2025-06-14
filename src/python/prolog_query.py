@@ -1,7 +1,6 @@
-from pyswip import Prolog
 import os
+from pyswip import Prolog
 
-from tokenizer import clean_tokenize
 import config as cfg
 
 prolog = Prolog()

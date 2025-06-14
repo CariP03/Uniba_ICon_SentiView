@@ -22,7 +22,7 @@ def read_dataset(path:str) -> pd.DataFrame:
     pos_path = os.path.join(path, 'pos')
     neg_path = os.path.join(path, 'neg')
 
-    df_pos = read_folder(pos_path, True)
-    df_neg = read_folder(neg_path, False)
+    pos_df = read_folder(pos_path, True)
+    neg_df = read_folder(neg_path, False)
 
-    return pd.concat([df_pos, df_neg])
+    return pd.concat([pos_df, neg_df])

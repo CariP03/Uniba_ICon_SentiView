@@ -1,5 +1,6 @@
 from sentiwordnet_score import get_swn_score
 from tokenizer import tokenize_dataframe
+
 from data_load import read_dataset
 import config as cfg
 
