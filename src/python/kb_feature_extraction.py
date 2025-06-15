@@ -6,6 +6,7 @@ from prolog_query import compute_metrics_prolog
 import config as cfg
 
 def extract_features(df: pd.DataFrame, save=True) -> pd.DataFrame:
+
     features = []
     for text in df["text"]:
         tokens = clean_tokenize(text)

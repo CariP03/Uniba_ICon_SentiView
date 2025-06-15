@@ -5,6 +5,7 @@ CONFIG_PATH = Path(__file__).resolve()
 PROJECT_ROOT = CONFIG_PATH.parent.parent.parent
 
 TRAIN_DATASET_PATH = PROJECT_ROOT / "data" / "aclImdb" / "train"
+TEST_DATASET_PATH = PROJECT_ROOT / "data" / "aclImdb" / "test"
 DATAFRAME_SAVE_PATH = PROJECT_ROOT / "data" / "kb_train.csv"
 
 LEXICON_PATH = PROJECT_ROOT / "src" / "prolog" / "lexicon.pl"
