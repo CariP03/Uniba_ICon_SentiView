@@ -1,5 +1,8 @@
 :- dynamic token_at/2.
 
+% Threshold
+threshold(-0.501).
+
 % Base: if the word has a score, otherwise 0
 token_base_score(Word, Score) :-
     word_score(Word, Score), !.
@@ -38,3 +41,9 @@ sentiment_count_nonzero(Count) :-
 sentiment_total_tokens(Tot) :-
     findall(1, token_at(_, _), L),
     length(L, Tot).
+
+% Classifier
+is_positive :-
+    sentiment_sum(S),
+    threshold(T),
+    S >= T.

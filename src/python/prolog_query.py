@@ -2,8 +2,10 @@ import os
 from pyswip import Prolog
 
 import config as cfg
+from tokenizer import clean_tokenize
 
-def compute_metrics_prolog(tokens):
+
+def load_kb():
     # load knowledge base
     prolog = Prolog()
 
@@ -15,6 +17,11 @@ def compute_metrics_prolog(tokens):
 
     # reset token_at
     list(prolog.query("retractall(token_at(_, _))"))
+
+    return prolog
+
+def compute_metrics_prolog(tokens):
+    prolog = load_kb()
 
     # assert all tokens
     for index, token in enumerate(tokens, start=1):
@@ -35,3 +42,15 @@ def compute_metrics_prolog(tokens):
     ratio = non_zero_count / num_tokens if num_tokens > 0 else 0
 
     return sentiment_sum, non_zero_count, num_tokens, avg_nonzero, ratio
+
+def classify_review(review: str) -> bool:
+    prolog = load_kb()
+
+    # assert all tokens
+    tokens = clean_tokenize(review)
+    for index, token in enumerate(tokens, start=1):
+        prolog.assertz(f'token_at({index}, "{token}")')
+
+    # query the knowledge base
+    label = list(prolog.query("is_positive"))
+    return bool(label)
