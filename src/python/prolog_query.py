@@ -3,15 +3,16 @@ from pyswip import Prolog
 
 import config as cfg
 
-prolog = Prolog()
-
-lex_path = os.path.abspath(cfg.LEXICON_PATH).replace('\\', '/')
-list(prolog.query(f"consult('{lex_path}')"))
-
-rule_path = os.path.abspath(cfg.SENTIMENT_PATH).replace('\\', '/')
-list(prolog.query(f"consult('{rule_path}')"))
-
 def compute_metrics_prolog(tokens):
+    # load knowledge base
+    prolog = Prolog()
+
+    lex_path = os.path.abspath(cfg.LEXICON_PATH).replace('\\', '/')
+    list(prolog.query(f"consult('{lex_path}')"))
+
+    rule_path = os.path.abspath(cfg.SENTIMENT_PATH).replace('\\', '/')
+    list(prolog.query(f"consult('{rule_path}')"))
+
     # reset token_at
     list(prolog.query("retractall(token_at(_, _))"))
 

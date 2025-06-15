@@ -1,8 +1,14 @@
-DATASET_PATH = "../../data/aclImdb/train/"
-LEXICON_PATH = "../prolog/lexicon.pl"
-SENTIMENT_PATH = "../prolog/sentiment_rules.pl"
+from pathlib import Path
 
-DATAFRAME_SAVE_PATH = "../../data/kb_train.csv"
+# find project root
+CONFIG_PATH = Path(__file__).resolve()
+PROJECT_ROOT = CONFIG_PATH.parent.parent.parent
+
+TRAIN_DATASET_PATH = PROJECT_ROOT / "data" / "aclImdb" / "train"
+DATAFRAME_SAVE_PATH = PROJECT_ROOT / "data" / "kb_train.csv"
+
+LEXICON_PATH = PROJECT_ROOT / "src" / "prolog" / "lexicon.pl"
+SENTIMENT_PATH = PROJECT_ROOT / "src" / "prolog" / "sentiment_rules.pl"
 
 # list of intensifiers
 INTENSIFIERS = {
