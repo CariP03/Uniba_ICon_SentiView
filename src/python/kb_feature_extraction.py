@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 
 from data_load import read_dataset
@@ -26,6 +27,8 @@ def extract_features(df: pd.DataFrame, save=True, save_filename=None) -> pd.Data
             save_path = cfg.DATAFRAME_SAVE_PATH / "kb_dataframe.csv"  # default file name
         else:
             save_path = cfg.DATAFRAME_SAVE_PATH / save_filename
+
+        os.makedirs(save_path.parent, exist_ok=True)  # create folder if it does not exist
         df.to_csv(save_path, index=False)
 
     return df
