@@ -5,7 +5,7 @@ from tokenizer import normalized_tokenizer
 from prolog_query import compute_metrics_prolog
 import config as cfg
 
-def extract_features(df: pd.DataFrame, save=True) -> pd.DataFrame:
+def extract_features(df: pd.DataFrame, save=True, save_filename=None) -> pd.DataFrame:
 
     features = []
     for text in df["text"]:
@@ -22,6 +22,10 @@ def extract_features(df: pd.DataFrame, save=True) -> pd.DataFrame:
     df = pd.concat([df.reset_index(drop=True), feature_df], axis=1)
 
     if save:
-        df.to_csv(cfg.DATAFRAME_SAVE_PATH, index=False)
+        if save_filename is None:
+            save_path = cfg.DATAFRAME_SAVE_PATH / "kb_dataframe.csv"  # default file name
+        else:
+            save_path = cfg.DATAFRAME_SAVE_PATH / save_filename
+        df.to_csv(save_path, index=False)
 
     return df
