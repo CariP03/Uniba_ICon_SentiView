@@ -11,6 +11,13 @@ def create_lexicon(df: pd.DataFrame) :
 
         # calculate a score for each token
         for token in vocab:
+            # ignore intensifiers
+            if token in cfg.INTENSIFIERS:
+                continue
+            # ignore negators
+            if token in cfg.NEGATORS:
+                continue
+
             score = get_swn_score(token)
 
             if abs(score) >= cfg.THRESHOLD:
