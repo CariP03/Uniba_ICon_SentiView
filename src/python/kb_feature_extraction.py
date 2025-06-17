@@ -1,7 +1,7 @@
 import pandas as pd
 
 from data_load import read_dataset
-from tokenizer import clean_tokenize
+from tokenizer import normalized_tokenizer
 from prolog_query import compute_metrics_prolog
 import config as cfg
 
@@ -9,7 +9,7 @@ def extract_features(df: pd.DataFrame, save=True) -> pd.DataFrame:
 
     features = []
     for text in df["text"]:
-        tokens = clean_tokenize(text)
+        tokens = normalized_tokenizer(text)
         metrics = compute_metrics_prolog(tokens)
         features.append(metrics)
 

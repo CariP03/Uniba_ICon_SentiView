@@ -6,26 +6,23 @@ threshold(-0.501).
 % Base: if the word has a score, otherwise 0
 token_base_score(Word, Score) :-
     word_score(Word, Score), !.
+token_base_score(Word, Score) :-
+    string_concat("not_", Base, Word),
+    word_score(Base, BaseScore),
+    Score is -BaseScore, !.
 token_base_score(_, 0).
 
-% Manage intensifiers and negators
+% Manage intensifiers
 token_effective_score(Index, ScoreEff) :-
     token_at(Index, Word),
     token_base_score(Word, Base),
-    % Intensifier
+    % Intensifiers
     ( Index > 1,
       Prev is Index - 1,
       token_at(Prev, PrevW),
       intensifier(PrevW, M) ->
-        B1 is Base * M ;
-        B1 = Base ),
-    % Negator
-    ( Index > 1,
-      Prev is Index - 1,
-      token_at(Prev, PrevW2),
-      negator(PrevW2) ->
-        ScoreEff is -B1 ;
-        ScoreEff = B1 ).
+        ScoreEff is Base * M ;
+        ScoreEff = Base ).
 
 % Total Sum
 sentiment_sum(Sum) :-

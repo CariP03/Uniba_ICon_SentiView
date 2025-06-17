@@ -1,76 +1,83 @@
-import string
 from nltk.corpus import wordnet as wn
-from nltk import word_tokenize, pos_tag
-from nltk.stem import WordNetLemmatizer as wnl
 import contractions
+import spacy
 
 from config import INTENSIFIERS, NEGATORS
+
+nlp = spacy.load("en_core_web_sm")
+
 
 def tokenize_dataframe(df):
     vocab = set()
     for text in df["text"]:
-        tokens = clean_tokenize(text)
+        tokens = normalized_tokenizer(text)
         for token in tokens:
             vocab.add(token)
 
     return vocab
 
 
-def clean_tokenize(text: str):
-    def get_wordnet_pos(treebank_tag):
-        # convert NLTK's tags to WordNet's tags
-        if treebank_tag.startswith('J'):
-            return wn.ADJ
-        elif treebank_tag.startswith('V'):
-            return wn.VERB
-        elif treebank_tag.startswith('N'):
-            return wn.NOUN
-        elif treebank_tag.startswith('R'):
-            return wn.ADV
-        else:
-            return wn.NOUN
+# source: https://stackoverflow.com/questions/17245123/getting-adjective-from-an-adverb-in-nltk-or-other-nlp-library
+# author: alvas (accessed 13 June 2025)
+def convert_adv_to_adj(adverb):
+    for ss in wn.synsets(adverb, pos=wn.ADV):
+        for lemmas in ss.lemmas():  # all possible lemmas
+            pert = lemmas.pertainyms()  # all possible pertainyms
+            if pert:
+                return pert[0].name()
 
-    # source: https://stackoverflow.com/questions/17245123/getting-adjective-from-an-adverb-in-nltk-or-other-nlp-library
-    # author: alvas (accessed 13 June 2025)
-    def convert_adv_to_adj(adverb):
-        for ss in wn.synsets(adverb, pos=wn.ADV):
-            for lemmas in ss.lemmas():  # all possible lemmas
-                pert = lemmas.pertainyms()  # all possible pertainyms
-                if pert:
-                    return pert[0].name()
+    return None
 
-        return None
 
-    tokens = word_tokenize(contractions.fix(text).lower())
-    pos_tags = pos_tag(tokens)
-    lemmatizer = wnl()
+def normalized_tokenizer(text: str):
+    def get_negated_indices(parsed_text):
+        negated = set()
+        for tok in parsed_text:
+            for child in tok.children:
+                if child.dep_ == "neg":
+                    negated.add(tok.i)
 
-    clean_tokens = []
-    for token, tag in pos_tags:
-        token = token.strip(string.punctuation)
-        token = token.replace("\\", '/')  # remove problematic character
+                    # propagate negation
+                    for desc in tok.subtree:
+                        if desc.pos_ in {"ADJ", "VERB", "ADV"} and desc.i != tok.i:
+                            negated.add(desc.i)
+        return negated
 
-        if any(c.isalpha() for c in token):  # remove invalid tokens
-            if token in NEGATORS:
-                clean_tokens.append(token)
-                continue
-            if token in INTENSIFIERS:
-                clean_tokens.append(token)
-                continue
+    text = contractions.fix(text).lower()
+    doc = nlp(text)
 
-            pos = get_wordnet_pos(tag)
-            if pos:
-                lemma = lemmatizer.lemmatize(token, pos)
-            else:
-                # if get_wordnet_pos returns None
-                lemma = lemmatizer.lemmatize(token)
+    negated_indices = get_negated_indices(doc)
 
-            # try to convert adverb to adjective
-            if pos == wn.ADV:
-                adj = convert_adv_to_adj(token)
-                if adj:
-                    lemma = adj
+    normalized_tokens = []
+    pending_neg = False
+    for token in doc:
+        if not token.is_alpha:
+            continue
+        lower = token.text.lower()
 
-            clean_tokens.append(lemma)
+        # manage negators that are not identified by spaCy
+        if lower in NEGATORS:
+            pending_neg = True
+            continue
 
-    return clean_tokens
+        # intensifiers
+        if lower in INTENSIFIERS:
+            normalized_tokens.append(lower)
+            continue
+
+        # lemmatize
+        lemma = token.lemma_.lower()
+        # convert from adverb to adjective
+        if token.pos_ == "ADV":
+            adj = convert_adv_to_adj(lower)
+            if adj:
+                lemma = adj
+
+        # apply negation
+        if token.i in negated_indices or pending_neg:
+            lemma = f"not_{lemma}"
+            pending_neg = False
+
+        normalized_tokens.append(lemma)
+
+    return normalized_tokens

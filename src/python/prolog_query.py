@@ -2,7 +2,7 @@ import os
 from pyswip import Prolog
 
 import config as cfg
-from tokenizer import clean_tokenize
+from tokenizer import normalized_tokenizer
 
 
 def load_kb():
@@ -47,7 +47,7 @@ def classify_review(review: str) -> bool:
     prolog = load_kb()
 
     # assert all tokens
-    tokens = clean_tokenize(review)
+    tokens = normalized_tokenizer(review)
     for index, token in enumerate(tokens, start=1):
         prolog.assertz(f'token_at({index}, "{token}")')
 

@@ -27,7 +27,7 @@ INTENSIFIERS = {
 }
 
 # list of negators
-NEGATORS = {"not", "never", "no", "hardly", "barely"}
+NEGATORS = {"not", "never", "no", "hardly", "barely", "little", "scarcely"}
 
 THRESHOLD = 0.1
 
