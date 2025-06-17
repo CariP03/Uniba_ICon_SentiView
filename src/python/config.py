@@ -7,6 +7,7 @@ PROJECT_ROOT = CONFIG_PATH.parent.parent.parent
 TRAIN_DATASET_PATH = PROJECT_ROOT / "data" / "aclImdb" / "train"
 TEST_DATASET_PATH = PROJECT_ROOT / "data" / "aclImdb" / "test"
 DATAFRAME_SAVE_PATH = PROJECT_ROOT / "data"
+MODEL_SAVE_PATH = PROJECT_ROOT / "models"
 
 LEXICON_PATH = PROJECT_ROOT / "src" / "prolog" / "lexicon.pl"
 SENTIMENT_PATH = PROJECT_ROOT / "src" / "prolog" / "sentiment_rules.pl"
