@@ -7515,7 +7515,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># import modules from other folders</span>
@@ -12780,7 +12780,7 @@ predictable -7.490997218942981
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># predict class</span>
-<span class="o">%</span><span class="k">time</span> y_pred = [1 if sentiment &gt;= optimal_threshold else 0 for sentiment in df_test_lex["sentiment_sum"]]
+<span class="n">y_pred</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="k">if</span> <span class="n">sentiment</span> <span class="o">&gt;=</span> <span class="n">optimal_threshold</span> <span class="k">else</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">sentiment</span> <span class="ow">in</span> <span class="n">df_test_lex</span><span class="p">[</span><span class="s2">"sentiment_sum"</span><span class="p">]]</span>
 
 <span class="c1"># calculate error metrics</span>
 <span class="n">accuracy</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">df_test_lex</span><span class="p">[</span><span class="s2">"label"</span><span class="p">],</span> <span class="n">y_pred</span><span class="p">)</span>
@@ -12834,6 +12834,45 @@ Wall time: 2 ms
 <pre>Accuracy: 0.846
 Precision: 0.848
 Recall: 0.842
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=15b4bed5-1cea-4186-ba58-80fa308fa317">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># correct time measurement</span>
+<span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"text"</span><span class="p">,</span> <span class="s2">"label"</span><span class="p">]</span>
+<span class="n">df_test_lex</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">DATAFRAME_SAVE_PATH</span> <span class="o">/</span> <span class="s2">"df_test.csv"</span><span class="p">)[</span><span class="n">features</span><span class="p">]</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">prolog_query</span><span class="w"> </span><span class="kn">import</span> <span class="n">classify_review</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+<span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">review</span> <span class="ow">in</span> <span class="n">df_test_lex</span><span class="p">[</span><span class="s2">"text"</span><span class="p">]:</span>
+    <span class="n">y_pred</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">classify_review</span><span class="p">(</span><span class="n">review</span><span class="p">))</span>
+<span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Total time: </span><span class="si">{</span><span class="n">end</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> seconds"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Total time: 837.048 seconds
 </pre>
 </div>
 </div>
