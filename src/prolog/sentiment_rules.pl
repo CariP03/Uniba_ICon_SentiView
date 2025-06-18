@@ -1,7 +1,7 @@
 :- dynamic token_at/2.
 
 % Threshold
-threshold(0.519).
+threshold(-1.366).
 
 % Base: if the word has a score, otherwise 0
 token_base_score(Word, Score) :-
