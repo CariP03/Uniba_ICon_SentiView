@@ -30,4 +30,4 @@ and open them using:
 ```jupyter lab```
 
 ## 📀 Download Dataset
-The project uses the IMDb reviews dataset, downloadable from [Stanford AI Large Movie Review Dataset](https://ai.stanford.edu/~amaas/data/sentiment/).
+The project uses the IMDb reviews dataset, downloadable from [Stanford AI Large Movie Review Dataset](https://ai.stanford.edu/~amaas/data/sentiment/). After downloading, extract the archive and place the contents inside a folder named `data` at the root of the project.
